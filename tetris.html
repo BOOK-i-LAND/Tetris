@@ -605,6 +605,10 @@ function gameLoop(timestamp) {
 }
 
 function startGame() {
+  // iOS対応：タップの瞬間にAudioContextを起動
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
   if (animId) cancelAnimationFrame(animId);
   init();
   lastTime = performance.now();
